@@ -69,6 +69,13 @@ blockedNames:
   - Sedum rupestre Hacq. ex Nyman, 1879 # https://github.com/gbif/checklistbank/issues/233
   - Tricholaema leucomelan namaqua  # https://github.com/gbif/checklistbank/issues/46
 
+
+# List of regular expression patterns for scientific names that are globally blocked from any source.
+# Patterns are case insensitive and must not be anchored at the front. Any match will block the name.
+blockedNamePatterns:
+ - "^\? [a-z]+"
+ 
+
 # epithets keyed by family
 basionymExclusions:
   Chrysomelidae:
