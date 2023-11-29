@@ -72,8 +72,14 @@ blockedNames:
 
 # List of regular expression patterns for scientific names that are globally blocked from any source.
 # Patterns are case insensitive and must not be anchored at the front. Any match will block the name.
+# Because of how YAML treats backslashes in double-quoted strings, note that all backslashes in a regex expression must be escaped when using double quotes. 
+# For example, all of these are valid:
+#   expression: \w*
+#   expression: '\w*'
+#   expression: "\\w*"
+# Best to avoid using double quotes!
 blockedNamePatterns:
- - "^\? [a-z]+"
+ - '^\? [a-z]+'
  
 
 # epithets keyed by family
