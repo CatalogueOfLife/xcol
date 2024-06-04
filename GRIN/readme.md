@@ -1,6 +1,6 @@
 # About GRIN
 
-CAB directories has 16 files,on table the ones beeing considered to get a list are consideredn below 
+GRIN provides a [CAB directory](https://npgsweb.ars-grin.gov/gringlobal/downloads/default) for download. The directory has 16 files, but only on 5 are considered to create the COLDP checklist archive, detailes are avialable on the folowing table: 
 
 | file name | checklist |
 | ------------- | ------------- |
@@ -20,4 +20,6 @@ CAB directories has 16 files,on table the ones beeing considered to get a list a
 |citation.txt | No |
 |cooperator.txt | No |
 |literature.txt | No |
+
+Below is the maping of each file to COLDP including the considerations made to use some of the fields during data transformation.
 
