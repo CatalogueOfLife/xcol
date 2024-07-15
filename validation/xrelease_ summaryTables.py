@@ -22,8 +22,10 @@ from datetime import datetime
 
 # Get the current date
 current_date = datetime.now().strftime("%Y-%m-%d")
-username = "yourusername"
-password = "yourpassword"
+
+username = 
+password = 
+
 
 
 # Improvements
@@ -133,10 +135,10 @@ for key, value_list in metrics_dict.items():
     else:
         print(f"No data found or empty list for key: {key}")
 
-
 issues = issues.pivot_table(index='key', columns='Issue Type', values='Count', fill_value=0)
 issues.reset_index(inplace=True) # Reset the index
 issues = pd.merge(issues, releases_a[['key', 'alias', 'issued','origin']], on='key', how='left')
+issues = issues.sort_values(by='origin', ascending=True)
 
 
 
@@ -287,15 +289,29 @@ if __name__ == "__main__":
     print(duplicates)
 
 
+#### STEP 4
+# Data transposition and early warnings
 
-## Save and export metrics
 
-#Select columns with issues to be transposed
+## Transposition
+#Select columns to be transposed
 metrics_to_transpose = releases_a.columns[6:]
 # Transpose the specified columns
-metrics_table = releases_a[metrics_to_transpose].transpose()
-# original row indicesfor context
+metrics_table = releases_a[metrics_to_transpose].transpose().astype(int)
+# original row indices for context
 metrics_table.columns = [f'{row.alias}_{row.origin}' for i, row in releases_a.iterrows()]
+# reorder columns
+metrics_table=metrics_table[metrics_table.columns[::-1]]
+
+
+## Early warnings
+percentage_change = (metrics_table.iloc[:, -1] - metrics_table.iloc[:, -2]) / metrics_table.iloc[:, -2] * 100
+metrics_table['x_change'] = metrics_table.iloc[:, -1] - metrics_table.iloc[:, -2]
+metrics_table['%_change'] = percentage_change.round(2)
+metrics_table['warning'] = metrics_table['%_change'].apply(lambda x: 'to_review' if abs(x) > 1 else '')
+
+
+
 
 # Save dataframe
 csv_file = f"metrics_{current_date}.csv"
@@ -310,8 +326,7 @@ metrics_table.to_excel(excel_file, index=True)
 print(f"Metrics saved to Excel file: {excel_file}")
 
 
-## Save and export issues
-
+## Transposition
 #Select columns with issues to be transposed
 issues_to_transpose = issues.columns[:-3]
 # Transpose the specified columns
@@ -319,14 +334,20 @@ issues_table = issues[issues_to_transpose].transpose()
 # original row indices for context
 issues_table.columns = [f'{row.alias}_{row.origin}' for i, row in issues.iterrows()]
 
+
+## Early warnings
+percentage_change_issues = (issues_table.iloc[:, -1] - issues_table.iloc[:, -2]) / issues_table.iloc[:, -2] * 100
+issues_table['x_change'] = issues_table.iloc[:, -1] - issues_table.iloc[:, -2]
+issues_table['%_change'] = percentage_change_issues.round(2)
+issues_table['warning'] = issues_table['%_change'].apply(lambda x: 'to_review' if abs(x) > 10 else '')
+
+
 # Save dataframe
 csv_file = f"issues_{current_date}.csv"
 excel_file = f"issues_{current_date}.xlsx"
-
 # Save duplicates DataFrame to CSV
 issues_table.to_csv(csv_file, index=True)
 print(f"Issues saved to CSV file: {csv_file}")
-
 # Save duplicates DataFrame to Excel
 issues_table.to_excel(excel_file, index=True)
 print(f"Issues saved to Excel file: {excel_file}")
@@ -334,24 +355,32 @@ print(f"Issues saved to Excel file: {excel_file}")
 
 
 
-## Save and export duplicates
+## Organice and Transpose Duplicates
 
+duplicates = duplicates.sort_values(by='issued', ascending=True)
+duplicates = duplicates.sort_values(by='origin', ascending=True)
 #Select columns with issues to be transposed
 duplicates_to_transpose = duplicates.columns[3:]
 # Transpose the specified columns
 duplicates_table = duplicates[duplicates_to_transpose].transpose()
 # original row indices for context
 duplicates_table.columns = [f'{row.issued}_{row.origin}' for i, row in duplicates.iterrows()]
+# Conver error Api messages to nan
+duplicates_table = duplicates_table.apply(pd.to_numeric, errors='coerce').fillna(0)
+
+## Early warnings Duplicates
+percentage_change_duplicates = (duplicates_table.iloc[:, -1] - duplicates_table.iloc[:, -2]) / duplicates_table.iloc[:, -2] * 100
+duplicates_table['x_change'] = duplicates_table.iloc[:, -1] - duplicates_table.iloc[:, -2]
+duplicates_table['%_change'] = percentage_change_duplicates.round(2)
+duplicates_table['warning'] = duplicates_table['%_change'].apply(lambda x: 'to_review' if abs(x) > 5 else '')
 
 
-# Save dataframe
+## Save dataframe Duplicates
 csv_file = f"duplicates_{current_date}.csv"
 excel_file = f"duplicates_{current_date}.xlsx"
-
 # Save duplicates DataFrame to CSV
 duplicates_table.to_csv(csv_file, index=True)
 print(f"Duplicate metrics saved to CSV file: {csv_file}")
-
 # Save duplicates DataFrame to Excel
 with pd.ExcelWriter(excel_file) as writer:
     duplicates_table.to_excel(writer, index=True, sheet_name='Duplicates')
@@ -367,67 +396,6 @@ print(f"Duplicate metrics saved to Excel file: {excel_file}")
 
 
 
-issues
-releases_a
-
-#Select columns with issues to be transposed
-metrics_to_transpose = releases_a.columns[6:]
-# Transpose the specified columns
-metrics_table = releases_a[metrics_to_transpose].transpose()
-# original row indicesfor context
-metrics_table.columns = [f'{row.alias}_{row.origin}' for i, row in releases_a.iterrows()]
-
-
-#Select columns with issues to be transposed
-issues_to_transpose = releases_a.columns[6:]
-# Transpose the specified columns
-issues_table = releases_a[issues_to_transpose].transpose()
-# original row indicesfor context
-issues_table.columns = [f'{row.alias}_{row.origin}' for i, row in releases_a.iterrows()]
-
-
-#### STEP 4
-# Compare releases and show early warnings
-
-#Dataframes to compare
-
-# rev if this is still neded of fix above will be enogh
-base_col_key = issues['key'].min() #
-sorted_keys = issues['key'].sort_values(ascending=False) # Sort the 'key' column in descending order
-previousXrelease_key = sorted_keys.iloc[1]
-latestXrelease_key = issues['key'].max() # Find the highest value in the 'key' column
-
-latest_row = issues[issues['key'] == latestXrelease_key]
-previous_row = issues[issues['key'] == previousXrelease_key]
-
-
-if latest_row.empty or previous_row.empty:
-    print("One or both keys not found in the dataframe.")
-else:
-    # Convert columns to numeric data type
-    latest_values = pd.to_numeric(latest_row.iloc[:, 1:].squeeze(), errors='coerce')
-    previous_values = pd.to_numeric(previous_row.iloc[:, 1:].squeeze(), errors='coerce')
-    
-    # Subtract the values of corresponding columns
-    releases_issues_dif = latest_values - previous_values
-    
-    # Create a new DataFrame to store the result
-    #releases_issues_dif = pd.DataFrame(result.values.reshape(1, -1), columns=latest_row.columns[1:])
-
-# Calculate the percentage change
-    percentage_change = ((latest_values - previous_values) / previous_values) * 100
-    
-    # Debugging: Print the percentage_change
-    print("Percentage Change:")
-    print(percentage_change)
-    
-
-issues_results = pd.concat([ previous_values, latest_values, releases_issues_dif, percentage_change], axis=1,keys=['previousXrelease', 'latestXrelease', 'issues_diff', 'porcentage_diff'])
-
-
-#------------no
-latest_xcol= issues.loc[issues['issued'] == issues['issued'].max()]
-base_col = issues.loc[issues['origin'] == 'release'] # Find the row with "origin" release
 
 
 
