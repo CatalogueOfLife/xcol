@@ -1,0 +1,21 @@
+,COL24.7_release,COL-2024-07-12_xrelease,COL-2024-07-20_xrelease,x_change,%_change,warning
+key,300004,299805,300043,238,0.08,
+classification rank order invalid,15,1686,1610,-76,-4.51,
+homotypic consolidation,0,69411,54076,-15335,-22.09,to_review
+homotypic consolidation unresolved,0,744358,647954,-96404,-12.95,to_review
+inconsistent name,765,832,1538,706,84.86,to_review
+missing genus,0,5506,5177,-329,-5.98,
+multi word epithet,10,32,783,751,2346.88,to_review
+multi word monomial,2,152,153,1,0.66,
+multiple basionyms,0,1655366,1514200,-141166,-8.53,
+parent name mismatch,4386,35427,33581,-1846,-5.21,
+parent species missing,0,283,279,-4,-1.41,
+published before genus,3370,19448,21894,2446,12.58,to_review
+rank name suffix conflict,1575,6652,8137,1485,22.32,to_review
+sync outside target,0,634279,544845,-89434,-14.1,to_review
+synonym parent,0,1774,1648,-126,-7.1,
+unlikely year,530,1602,1777,175,10.92,to_review
+unmatched name brackets,13,32,41,9,28.12,to_review
+unusual name characters,233,803,1779,976,121.54,to_review
+uppercase epithet,0,17,17,0,0.0,
+wrong monomial case,2,121,121,0,0.0,

@@ -1,0 +1,24 @@
+,COL24.7_release,COL-2024-07-12_xrelease,COL-2024-07-20_xrelease,x_change,%_change,warning
+nameCount,5200521,9101666,8989876,-111790,-1.23,to_review
+synonymCount,2590670,3964534,3936554,-27980,-0.71,
+speciesNames,4165176,4885273,4805035,-80238,-1.64,to_review
+varietyNames,295077,414037,411639,-2398,-0.58,
+genusNames,287289,357982,350511,-7471,-2.09,to_review
+subspeciesNames,281735,344077,343201,-876,-0.25,
+formNames,58680,85953,85540,-413,-0.48,
+unrankedNames,18119,2889985,2889384,-601,-0.02,
+familyNames,17207,21044,21709,665,3.16,to_review
+otherNames,962,2170,2168,-2,-0.09,
+speciesTaxa,2177735,2548855,2474286,-74569,-2.93,to_review
+varietyTaxa,26026,60682,59054,-1628,-2.68,to_review
+genusTaxa,211557,248049,243214,-4835,-1.95,to_review
+subspeciesTaxa,146982,172865,171701,-1164,-0.67,
+formTaxa,842,8787,8420,-367,-4.18,to_review
+unrankedTaxa,3,2047739,2047739,0,0.0,
+familyTaxa,14176,16289,16289,0,0.0,
+otherTaxa,1,1,1,0,0.0,
+acceptedstatus,2524475,4966103,4921523,-44580,-0.9,
+synonymstatus,2455641,3827352,3797296,-30056,-0.79,
+ambiguous synonymstatus,125703,125186,127467,2281,1.82,to_review
+provisionally acceptedstatus,85376,171029,131799,-39230,-22.94,to_review
+misappliedstatus,9326,11996,11791,-205,-1.71,to_review
