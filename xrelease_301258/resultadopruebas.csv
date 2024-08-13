@@ -1,0 +1,10 @@
+,issue,test_result,url_issue,clb_url1,clb_url2
+0,issue_131_Hemiloricaria,succeded,https://github.com/CatalogueOfLife/xcol/issues/131,https://www.checklistbank.org/dataset/3LXRC/names?q=Hemiloricaria&sortBy=taxonomic&type=EXACT&sectorMode=merge,
+1,issue_131_Hemiloricaria,succeded,https://github.com/CatalogueOfLife/xcol/issues/131,https://www.checklistbank.org/dataset/3LXRC/names?q=Hemiloricaria&sortBy=taxonomic&type=EXACT&sectorMode=merge,
+2,issue_131_Hemiloricaria,succeded,https://github.com/CatalogueOfLife/xcol/issues/131,https://www.checklistbank.org/dataset/3LXRC/names?q=Hemiloricaria&sortBy=taxonomic&type=EXACT&sectorMode=merge,
+3,issue_146_1,failed,https://github.com/CatalogueOfLife/xcol/issues/146,https://www.checklistbank.org/dataset/3LXRC/names?q=Ancistrocoma&rank=genus&sortBy=taxonomic&status=accepted,
+4,issue_146_2,failed,https://github.com/CatalogueOfLife/xcol/issues/146,https://www.checklistbank.org/dataset/3LXRC/names?q=Hypocomella&rank=genus&sortBy=taxonomic&status=accepted,
+5,issue_113,succeded,https://github.com/CatalogueOfLife/xcol/issues/113,https://www.checklistbank.org/dataset/3LXRC/names?q=Abbella%20zabinskii&sortBy=taxonomic&type=EXACT,
+6,issue_106,succeded,https://github.com/CatalogueOfLife/xcol/issues/106,https://www.checklistbank.org/dataset/3LXRC/names?q=carolia couchii,
+7,issue_109,succeded,https://github.com/CatalogueOfLife/xcol/issues/109,https://www.checklistbank.org/dataset/3LXRC/names?q=Aciculidae&sortBy=taxonomic&type=EXACT,
+8,issue_79,succeded,https://github.com/CatalogueOfLife/xcol/issues/79,https://www.checklistbank.org/dataset/3LXRC/names?extinct=1&sectorMode=merge&sortBy=taxonomic,
