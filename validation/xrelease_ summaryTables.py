@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Apr 25 12:07:29 2024
+Update: 2025-02-06
 
 @author: camisilver
 """
@@ -22,11 +23,28 @@ from datetime import datetime
 
 # Get the current date
 current_date = datetime.now().strftime("%Y-%m-%d")
-
 username = 
 password = 
+#username = 
+#password = 
 
+# API endpoint
+url = "https://api.checklistbank.org/dataset?limit=1&releasedFrom=3&reverse=true"
+# authentication
+response = requests.get(url, auth=(username, password))
+response.raise_for_status()  # Raise an error for bad responses
+# Parse JSON response
+data = response.json()
+# Extract the 'key' value
+if "result" in data and isinstance(data["result"], list) and len(data["result"]) > 0:
+    dataset_key = data["result"][0].get("key")
+    print("Extracted key:", dataset_key)
+else:
+    dataset_key = None
+    print("No key found in response")
 
+# Store the key in a variable
+this_release_id= dataset_key
 
 # Improvements
 # - Don't relay in limit/offset to get latest releases seek for more consistent parameters
@@ -36,7 +54,7 @@ password =
 #### STEP 1
 #Extract basic information from all the releases of COL Project id# 3
 # Have to check if limit / offset combination is usefull
-url = 'https://api.checklistbank.org/dataset?limit=20&offset=30&releasedFrom=3'
+url = 'https://api.checklistbank.org/dataset?limit=20&offset=52&releasedFrom=3'
 #url = 'https://api.dev.checklistbank.org/dataset?limit=50&offset=0&releasedFrom=3'
 response = requests.get(url, auth=HTTPBasicAuth(username, password))
 
@@ -314,13 +332,11 @@ metrics_table['warning'] = metrics_table['%_change'].apply(lambda x: 'to_review'
 
 
 # Save dataframe
-csv_file = f"metrics_{current_date}.csv"
-excel_file = f"metrics_{current_date}.xlsx"
-
+csv_file = f"metrics_{current_date}_{this_release_id}.csv"
+excel_file = f"metrics_{current_date}_{this_release_id}.xlsx"
 # Save duplicates DataFrame to CSV
 metrics_table.to_csv(csv_file, index=True)
 print(f"Metrics saved to CSV file: {csv_file}")
-
 # Save duplicates DataFrame to Excel
 metrics_table.to_excel(excel_file, index=True)
 print(f"Metrics saved to Excel file: {excel_file}")
@@ -343,15 +359,14 @@ issues_table['warning'] = issues_table['%_change'].apply(lambda x: 'to_review' i
 
 
 # Save dataframe
-csv_file = f"issues_{current_date}.csv"
-excel_file = f"issues_{current_date}.xlsx"
+csv_file = f"issues_{current_date}_{this_release_id}.csv"
+excel_file = f"issues_{current_date}_{this_release_id}.xlsx"
 # Save duplicates DataFrame to CSV
 issues_table.to_csv(csv_file, index=True)
 print(f"Issues saved to CSV file: {csv_file}")
 # Save duplicates DataFrame to Excel
 issues_table.to_excel(excel_file, index=True)
 print(f"Issues saved to Excel file: {excel_file}")
-
 
 
 
@@ -375,9 +390,12 @@ duplicates_table['%_change'] = percentage_change_duplicates.round(2)
 duplicates_table['warning'] = duplicates_table['%_change'].apply(lambda x: 'to_review' if abs(x) > 5 else '')
 
 
+
+#to improbe update directory to store in the rigth place
+
 ## Save dataframe Duplicates
-csv_file = f"duplicates_{current_date}.csv"
-excel_file = f"duplicates_{current_date}.xlsx"
+csv_file = f"duplicates_{current_date}_{this_release_id}.csv"
+excel_file = f"duplicates_{current_date}_{this_release_id}.xlsx"
 # Save duplicates DataFrame to CSV
 duplicates_table.to_csv(csv_file, index=True)
 print(f"Duplicate metrics saved to CSV file: {csv_file}")
@@ -385,10 +403,6 @@ print(f"Duplicate metrics saved to CSV file: {csv_file}")
 with pd.ExcelWriter(excel_file) as writer:
     duplicates_table.to_excel(writer, index=True, sheet_name='Duplicates')
 print(f"Duplicate metrics saved to Excel file: {excel_file}")
-
-
-
-
 
 
 
